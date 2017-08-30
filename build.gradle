@@ -1,0 +1,67 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.6.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+bootRepackage.enabled = false
+
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	compile group: 'org.springframework', name: 'spring-context', version: '4.3.10.RELEASE'
+	testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
+	compile group: 'cglib', name: 'cglib-nodep', version: '3.2.5'
+	
+	
+	 //test dependencies
+	testCompile 'junit:junit:4.9'
+	
+}
+
+war {
+    from('src/main/resources') {
+        include 'application.properties'
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+        resources {
+            srcDir 'src/main/resources'
+        }
+        output.classesDir   = 'build/classes/main/java'
+    	output.resourcesDir = 'build/classes/main/resources'
+    }
+    test {
+        java {
+            srcDir 'src/test/java'
+        }
+        resources {
+            srcDir 'src/test/resources'
+        }
+        output.classesDir   = 'build/classes/test/java'
+        output.resourcesDir = 'build/classes/test/resources'
+   	}
+}
